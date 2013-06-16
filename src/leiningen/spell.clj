@@ -1,5 +1,6 @@
 (ns leiningen.spell
- (:require [clojure.string]))
+ (:require [clojure.string]
+           [clojure.java.io :as io]))
 
 (defn doc-file-for-ns [nsp]
   (spit (str nsp)
@@ -13,7 +14,7 @@
 
 (defn fetch-whitelist
   []
-  (-> "whitelist" file-lines rest))
+  (-> "whitelist.txt" io/resource file-lines rest))
 
 (defn typos-for-ns [nsp]
   (when (symbol? nsp)
