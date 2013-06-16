@@ -1,25 +1,23 @@
-# lein-spell
+## Description
 
-A Leiningen plugin to do many wonderful things.
+TODO
+
+## Install
+
+Until this is released as a clojar, clone the repo and `lein install`.
+
+Add to your project.clj:
+
+    [lein-spell "0.1.0-SNAPSHOT"]
 
 ## Usage
 
-FIXME: Use this for user-level plugins:
+TODO
 
-Put `[lein-spell "0.1.0-SNAPSHOT"]` into the `:plugins` vector of your
-`:user` profile, or if you are on Leiningen 1.x do `lein plugin install
-lein-spell 0.1.0-SNAPSHOT`.
+## Bugs/Issues
 
-FIXME: Use this for project-level plugins:
-
-Put `[lein-spell "0.1.0-SNAPSHOT"]` into the `:plugins` vector of your project.clj.
-
-FIXME: and add an example usage that actually makes sense:
-
-    $ lein spell
+Please report them [on github](http://github.com/cldwalker/lein-spell/issues).
 
 ## License
 
-Copyright © 2013 FIXME
-
-Distributed under the Eclipse Public License, the same as Clojure.
+See LICENSE.TXT
