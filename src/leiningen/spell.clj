@@ -21,6 +21,9 @@
   []
   (-> "whitelist.txt" io/resource file-lines rest))
 
+(def memoized-fetch-whitelist
+  (memoize fetch-whitelist))
+
 (defn- count-less-than-six
   "Filters lines that are 4 or 5 char count"
   [lines]
@@ -41,6 +44,12 @@
      (when verbose (prn matching-lines))
      (str (format "%.2f" (float ratio)) " - " ratio))))
 
+(defn correctly-spelled?
+  "Returns truish value if word is spelled correctly."
+  [word]
+  (or ((set (memoized-fetch-whitelist)) word)
+      (re-find #"[A-Z]" word)))
+
 (defn typos-for-file
   "Given a file, returns a list of misspelled words."
   [file]
@@ -51,7 +60,7 @@
        (#(string/split % #"\n"))
        distinct
        sort
-       (remove (set (fetch-whitelist)))))
+       (remove correctly-spelled?)))
 
 (defn typos-for-ns
   "Given a namespace or namespace symbol, returns a list of misspelled words."
