@@ -68,7 +68,6 @@ Util
 VAET
 VM
 ZooKeeper
-accessor
 aggregator
 aname
 api
@@ -86,7 +85,6 @@ balancer
 basename
 behaviour
 blobstore
-boolean
 bugfixes
 builtin
 callout
@@ -104,6 +102,7 @@ closeable
 cloudwatch
 comparators
 compareTo
+compatability
 composable
 conf
 config
@@ -121,7 +120,6 @@ dbname
 debconf
 debian
 deepmerge
-deref
 deref'd
 destructuring
 dev
@@ -143,7 +141,6 @@ fifo
 filename
 filepath
 filesystem
-fn
 fname
 foo's
 fred
@@ -201,11 +198,10 @@ multi
 multiline
 multimethod
 multiverse
-namespace
 namespaced
 noHistory
 nop
-num
+overridable
 parallelize
 parameterize
 parameterized
@@ -245,6 +241,7 @@ serializable
 sessioned
 sftp
 significative
+specialisation
 specialised
 specialiser
 sql

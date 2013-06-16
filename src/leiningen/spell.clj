@@ -21,8 +21,15 @@
   []
   (-> "whitelist.txt" io/resource file-lines rest))
 
+(defn- core-fns
+  []
+  (->> 'clojure.core find-ns ns-interns vals (map (comp name :name meta)))) 
+
 (def memoized-fetch-whitelist
-  (memoize fetch-whitelist))
+  (memoize (comp set fetch-whitelist)))
+
+(def memoized-core-fns
+  (memoize (comp set core-fns)))
 
 (defn- count-less-than-six
   "Filters lines that are 4 or 5 char count"
@@ -47,8 +54,9 @@
 (defn correctly-spelled?
   "Returns truish value if word is spelled correctly."
   [word]
-  (or ((set (memoized-fetch-whitelist)) word)
-      (re-find #"[A-Z]" word)))
+  (or ((memoized-fetch-whitelist) word)
+      (re-find #"[A-Z]" word)
+      ((memoized-core-fns) word)))
 
 (defn typos-for-file
   "Given a file, returns a list of misspelled words."
