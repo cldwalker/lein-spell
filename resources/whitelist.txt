@@ -48,7 +48,6 @@ Postgres
 Postgresql
 RDBMS's
 REPL
-Recognised
 Riak
 Riak's
 Rsync
@@ -91,6 +90,7 @@ boolean
 bugfixes
 builtin
 callout
+cancelled
 cardinality
 carte
 centos
@@ -100,6 +100,7 @@ classpath
 clj
 clojure
 clojure's
+closeable
 cloudwatch
 comparators
 compareTo
@@ -227,6 +228,8 @@ prodmode
 programmatically
 protobuf
 psql
+recognised
+recognises
 redhat
 regex
 repl
