@@ -42,7 +42,7 @@
      (str (format "%.2f" (float ratio)) " - " ratio))))
 
 (defn typos-for-file
-  "Given a file, returns misspelled words separated by newlines."
+  "Given a file, returns a list of misspelled words."
   [file]
   (->> file
        (format "cat %s | aspell --ignore=3 list")
@@ -51,19 +51,19 @@
        (#(string/split % #"\n"))
        distinct
        sort
-       (remove (set (fetch-whitelist)))
-       (string/join "\n")))
+       (remove (set (fetch-whitelist)))))
 
 (defn typos-for-ns
-  "Given a namespace or namespace symbol, returns misspelled words separated by newlines."
+  "Given a namespace or namespace symbol, returns a list of misspelled words."
   [nsp]
   (when (symbol? nsp)
     (require nsp :reload))
-  (let [nsp (if (symbol? nsp) (find-ns nsp) nsp)]
-    (-> (doc-file-for-ns nsp)
-        typos-for-file)))
+  (-> (if (symbol? nsp) (find-ns nsp) nsp)
+      doc-file-for-ns
+      typos-for-file))
 
 (defn typos-for-all-ns
+  "Returns a list of misspelled words for all namespaces under src/."
   []
   (->> (b/namespaces-on-classpath :prefix "pallet")
        #_(b/namespaces-on-classpath :classpath "src")
@@ -73,19 +73,20 @@
                     (catch Exception e
                       (println (format "Failed on namespace %s with exception %s" nsp e))))]))
        (filter #(seq (second %)))
-       (map second)
-       (string/join "\n")))
+       (mapcat second)
+       distinct
+       sort))
 
 (comment
   (whitelist-with count-less-than-six)
   (whitelist-with (fn [l] (filter #(re-find #"^[A-Z]" %) l)) true)
   (time (typos-for-all-ns))
-  (println (typos-for-ns 'pallet.api)))
+  (println (string/join "\n" (typos-for-ns 'pallet.api))))
 
 (defn spell
   "Finds misspelled words in fn docs and prints them one per line. If given an arg,
   only does that namespace. Otherwise does all namespaces under src/."
   [project & args]
   (if (first args)
-    (println (typos-for-ns (symbol (first args))))
-    (println (typos-for-all-ns))))
+    (println (string/join "\n" (typos-for-ns (symbol (first args)))))
+    (println (string/join "\n" (typos-for-all-ns)))))
