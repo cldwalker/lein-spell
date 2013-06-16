@@ -15,7 +15,6 @@ DDB
 Datalog
 Datom
 Datomic
-Datomic's
 Datoms
 Dev
 DynamoDB
@@ -46,10 +45,8 @@ Parameterizing
 PostgreSQL
 Postgres
 Postgresql
-RDBMS's
 REPL
 Riak
-Riak's
 Rsync
 SDB
 SQL
@@ -60,7 +57,6 @@ TCP
 UI
 URI
 URIs
-URL's
 UTC
 UUID
 UUIDs
@@ -97,10 +93,10 @@ classloader
 classpath
 clj
 clojure
-clojure's
 closeable
 cloudwatch
 comparators
+cpu
 compareTo
 compatability
 composable
@@ -120,11 +116,9 @@ dbname
 debconf
 debian
 deepmerge
-deref'd
 destructuring
 dev
 dir
-dissoc's
 distro
 docstring
 dtm
@@ -142,7 +136,6 @@ filename
 filepath
 filesystem
 fname
-foo's
 fred
 fulltext
 getClass
@@ -295,4 +288,3 @@ versioned
 versioning
 vtype
 xml
-zip'd

@@ -60,7 +60,8 @@
 (defn ignorable?
   "Returns truish value if misspelled word can be ignored."
   [word]
-  (re-find #"[A-Z]" word))
+  (or (re-find #"[A-Z]" word)
+      (re-find #"('d|'s)$" word)))
 
 (defn remove-whitelisted
   "Removes words that are whitelisted."
