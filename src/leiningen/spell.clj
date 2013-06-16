@@ -1,5 +1,6 @@
 (ns leiningen.spell
  (:require [clojure.string :as string]
+           [clojure.set]
            [clojure.java.shell]
            [bultitude.core :as b]
            [clojure.java.io :as io])
@@ -25,11 +26,16 @@
   []
   (->> 'clojure.core find-ns ns-interns vals (map (comp name :name meta)))) 
 
-(def memoized-fetch-whitelist
-  (memoize (comp set fetch-whitelist)))
+(defn fetch-local-whitelist
+  "Fetches local whitelist from .lein-spell if it exists"
+  []
+  (if (.exists (io/file ".lein-spell"))
+    (file-lines ".lein-spell")
+    []))
 
-(def memoized-core-fns
-  (memoize (comp set core-fns)))
+(def memoized-fetch-whitelist (memoize (comp set fetch-whitelist)))
+(def memoized-core-fns (memoize (comp set core-fns)))
+(def memoized-fetch-local-whitelist (memoize (comp set fetch-local-whitelist)))
 
 (defn- count-less-than-six
   "Filters lines that are 4 or 5 char count"
@@ -51,12 +57,18 @@
      (when verbose (prn matching-lines))
      (str (format "%.2f" (float ratio)) " - " ratio))))
 
-(defn correctly-spelled?
-  "Returns truish value if word is spelled correctly."
+(defn ignorable?
+  "Returns truish value if misspelled word can be ignored."
   [word]
-  (or ((memoized-fetch-whitelist) word)
-      (re-find #"[A-Z]" word)
-      ((memoized-core-fns) word)))
+  (re-find #"[A-Z]" word))
+
+(defn remove-whitelisted
+  "Removes words that are whitelisted."
+  [lines]
+  (clojure.set/difference (set lines)
+                          (memoized-fetch-whitelist)
+                          (memoized-core-fns)
+                          (memoized-fetch-local-whitelist)))
 
 (defn typos-for-file
   "Given a file, returns a list of misspelled words."
@@ -68,7 +80,8 @@
        (#(string/split % #"\n"))
        distinct
        sort
-       (remove correctly-spelled?)))
+       remove-whitelisted
+       (remove ignorable?)))
 
 (defn typos-for-ns
   "Given a namespace or namespace symbol, returns a list of misspelled words."
