@@ -1,6 +1,7 @@
 (ns leiningen.spell
- (:require [clojure.string]
+ (:require [clojure.string :as string]
            [clojure.java.shell]
+           [bultitude.core :as b]
            [clojure.java.io :as io])
   (:import [java.io File]))
 
@@ -9,11 +10,11 @@
     (spit file
           (->> nsp ns-interns vals
                (map (comp :doc meta))
-               (clojure.string/join "\n")))
+               (string/join "\n")))
     file))
 
 (defn- file-lines [file]
-  (-> file slurp (clojure.string/split #"\n")))
+  (-> file slurp (string/split #"\n")))
 
 (defn fetch-whitelist
   "Returns a list of allowed words - mostly CS, programming and clojure words."
@@ -30,8 +31,8 @@
        flatten))
 
 (defn- whitelist-with
-  "Filters whitelist with given f and prints % and ration affected. Useful for
-  comparing possible whitelist filters."
+  "Filters white-list with given f and prints % and ration affected. Useful for
+  comparing possible white-list filters."
   ([f] (whitelist-with f false))
   ([f verbose]
    (let [lines (fetch-whitelist)
@@ -47,11 +48,11 @@
        (format "cat %s | aspell --ignore=3 list")
        (clojure.java.shell/sh "bash" "-c")
        :out
-       (#(clojure.string/split % #"\n"))
+       (#(string/split % #"\n"))
        distinct
        sort
        (remove (set (fetch-whitelist)))
-       (clojure.string/join "\n")))
+       (string/join "\n")))
 
 (defn typos-for-ns
   "Given a namespace or namespace symbol, returns misspelled words separated by newlines."
@@ -62,12 +63,29 @@
     (-> (doc-file-for-ns nsp)
         typos-for-file)))
 
+(defn typos-for-all-ns
+  []
+  (->> (b/namespaces-on-classpath :prefix "pallet")
+       #_(b/namespaces-on-classpath :classpath "src")
+       (map (fn [nsp]
+              [nsp
+               (try (typos-for-ns nsp)
+                    (catch Exception e
+                      (println (format "Failed on namespace %s with exception %s" nsp e))))]))
+       (filter #(seq (second %)))
+       (map second)
+       (string/join "\n")))
+
 (comment
   (whitelist-with count-less-than-six)
   (whitelist-with (fn [l] (filter #(re-find #"^[A-Z]" %) l)) true)
+  (time (typos-for-all-ns))
   (println (typos-for-ns 'pallet.api)))
 
 (defn spell
-  "Given a namespace, finds misspelled words in fn docs and prints them one per line."
+  "Finds misspelled words in fn docs and prints them one per line. If given an arg,
+  only does that namespace. Otherwise does all namespaces under src/."
   [project & args]
-  (println (typos-for-ns (symbol (first args)))))
+  (if (first args)
+    (println (typos-for-ns (symbol (first args))))
+    (println (typos-for-all-ns))))
