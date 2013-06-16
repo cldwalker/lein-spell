@@ -13,7 +13,7 @@
 
 (defn fetch-whitelist
   []
-  (-> "datomic-whitelist" file-lines rest))
+  (-> "whitelist" file-lines rest))
 
 (defn typos-for-ns [nsp]
   (when (symbol? nsp)
@@ -22,10 +22,12 @@
     (->> (clojure.java.shell/sh
            "bash"
            "-c"
-           (format "cat %s | aspell --ignore=3 list --home-dir=. --personal=whitelist | sort | uniq"
+           (format "cat %s | aspell --ignore=3 list"
                    (doc-file-for-ns nsp)))
          :out
          (#(clojure.string/split % #"\n"))
+         distinct
+         sort
          (remove (set (fetch-whitelist)))
          (clojure.string/join "\n"))))
 
@@ -42,9 +44,7 @@
   (defn try-fn
     ([f] (try-fn f false))
     ([f verbose]
-     (let [lines (concat
-                   (->> "whitelist" file-lines rest) 
-                   (->> "datomic-whitelist" file-lines rest))
+     (let [lines (->> "whitelist" file-lines rest) 
            matching-lines (f lines)
            ratio (/ (count matching-lines) (count lines))]
        (when verbose (prn matching-lines))
@@ -55,7 +55,7 @@
 
   (slurp "pallet.actions")
   (require 'pallet.actions :reload)
-  (println (typos-for-ns 'pallet.core.api))
+  (println (typos-for-ns 'pallet.api))
   )
 
 (defn spell
