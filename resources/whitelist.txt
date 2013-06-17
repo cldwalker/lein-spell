@@ -71,6 +71,7 @@ encoding
 enum
 erroring
 executable
+execv
 expr
 failover
 favour
@@ -79,7 +80,9 @@ filename
 filepath
 filesystem
 fname
+fqdn
 fred
+fsm
 fulltext
 getClass
 gpgkey
@@ -94,13 +97,16 @@ indices
 infinispan
 init
 initd
+inserter
 interop
 jarfile
+javac
 javadoc
 javascript
 jclouds
 jdbc
 jdk
+jpackage
 jruby
 js
 json
@@ -159,6 +165,7 @@ postgres
 postgresql
 pre
 prepending
+prioritised
 proc
 prodmode
 programmatically
@@ -223,6 +230,7 @@ uncomment
 unencoded
 unix
 unlinked
+unrecognised
 upsert
 upsertable
 upserted
