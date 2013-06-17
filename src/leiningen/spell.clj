@@ -80,7 +80,8 @@
                           (memoized-fetch-whitelist)
                           (memoized-core-fns)
                           (memoized-fetch-local-whitelist)
-                          (memoized-fetch-whitelist-pluralized)))
+                          (memoized-fetch-whitelist-pluralized)
+                          #{""}))
 
 (defn typos-for-file
   "Given a file, returns a list of misspelled words."
