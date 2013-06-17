@@ -33,9 +33,19 @@
     (file-lines ".lein-spell")
     []))
 
+(defn fetch-whitelist-pluralized
+  "Fetches plurals of all whitelist words"
+  []
+  (map
+    #(str % "s")
+    (concat (core-fns)
+            (fetch-whitelist)
+            (fetch-local-whitelist))))
+
 (def memoized-fetch-whitelist (memoize (comp set fetch-whitelist)))
 (def memoized-core-fns (memoize (comp set core-fns)))
 (def memoized-fetch-local-whitelist (memoize (comp set fetch-local-whitelist)))
+(def memoized-fetch-whitelist-pluralized (memoize (comp set fetch-whitelist-pluralized)))
 
 (defn- count-less-than-six
   "Filters lines that are 4 or 5 char count"
@@ -69,7 +79,8 @@
   (clojure.set/difference (set lines)
                           (memoized-fetch-whitelist)
                           (memoized-core-fns)
-                          (memoized-fetch-local-whitelist)))
+                          (memoized-fetch-local-whitelist)
+                          (memoized-fetch-whitelist-pluralized)))
 
 (defn typos-for-file
   "Given a file, returns a list of misspelled words."
