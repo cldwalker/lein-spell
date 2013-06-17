@@ -113,7 +113,8 @@
               [nsp
                (try (typos-for-ns nsp)
                     (catch Exception e
-                      (println (format "Failed on namespace %s with exception %s" nsp e))))]))
+                      (binding [*out* *err*]
+                       (println (format "Failed on namespace %s with exception %s" nsp e)))))]))
        (filter #(seq (second %)))
        (mapcat second)
        distinct
