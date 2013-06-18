@@ -17,6 +17,7 @@ arity
 aseq
 async
 attr
+auth
 autopurge
 autoscaling
 autoselect
@@ -117,6 +118,7 @@ gpgkey
 heroku
 hostname
 hotrod
+href
 html
 http
 ident
@@ -147,6 +149,7 @@ keySet
 keymap
 keypair
 keyserver
+keystore
 keyval
 killall
 kv
@@ -166,6 +169,7 @@ login
 lookahead
 lookup
 lossy
+lowercasing
 lucene
 macroexpansion
 matcher
@@ -186,9 +190,11 @@ msec
 multi
 multiline
 multimethod
+multipart
 multiverse
 namespaced
 nop
+oauth
 overridable
 parallelize
 param
@@ -224,6 +230,7 @@ protobuf
 proxied
 psql
 quasiquoting
+querystring
 radix
 readably
 readme
@@ -294,6 +301,7 @@ timestamp
 toc
 tradeoff
 transactional
+truish
 truthy
 tuple
 tx
@@ -329,5 +337,8 @@ versioned
 versioning
 vm
 vtype
+whitelist
+whitelisted
 whitespace
 xml
+zlib
