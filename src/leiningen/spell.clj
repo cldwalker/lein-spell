@@ -22,9 +22,13 @@
   []
   (-> "whitelist.txt" io/resource file-lines rest))
 
-(defn- core-fns
+(defn- ns-intern-names
+  [nsp]
+  (->> nsp find-ns ns-interns vals (map (comp name :name meta))))
+
+(defn- core-names
   []
-  (->> 'clojure.core find-ns ns-interns vals (map (comp name :name meta)))) 
+  (ns-intern-names 'clojure.core))
 
 (defn fetch-local-whitelist
   "Fetches local whitelist from .lein-spell if it exists"
@@ -38,12 +42,12 @@
   []
   (map
     #(str % "s")
-    (concat (core-fns)
+    (concat (core-names)
             (fetch-whitelist)
             (fetch-local-whitelist))))
 
 (def memoized-fetch-whitelist (memoize (comp set fetch-whitelist)))
-(def memoized-core-fns (memoize (comp set core-fns)))
+(def memoized-core-names (memoize (comp set core-names)))
 (def memoized-fetch-local-whitelist (memoize (comp set fetch-local-whitelist)))
 (def memoized-fetch-whitelist-pluralized (memoize (comp set fetch-whitelist-pluralized)))
 
@@ -75,17 +79,18 @@
 
 (defn remove-whitelisted
   "Removes words that are whitelisted."
-  [lines]
+  [nsp lines]
   (clojure.set/difference (set lines)
                           (memoized-fetch-whitelist)
-                          (memoized-core-fns)
+                          (memoized-core-names)
                           (memoized-fetch-local-whitelist)
+                          (set (ns-intern-names nsp))
                           (memoized-fetch-whitelist-pluralized)
                           #{""}))
 
 (defn typos-for-file
   "Given a file, returns a list of misspelled words."
-  [file]
+  [file nsp]
   (->> file
        (format "cat %s | aspell --ignore=3 list")
        (clojure.java.shell/sh "bash" "-c")
@@ -93,7 +98,7 @@
        (#(string/split % #"\n"))
        distinct
        sort
-       remove-whitelisted
+       (remove-whitelisted nsp)
        (remove ignorable?)))
 
 (defn typos-for-ns
@@ -103,7 +108,7 @@
     (require nsp :reload))
   (-> (if (symbol? nsp) (find-ns nsp) nsp)
       doc-file-for-ns
-      typos-for-file))
+      (typos-for-file nsp)))
 
 (defn typos-for-all-ns
   "Returns a list of misspelled words for all namespaces under src/."
