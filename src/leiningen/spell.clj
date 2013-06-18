@@ -2,6 +2,7 @@
  (:require [clojure.string :as string]
            [clojure.set]
            [clojure.java.shell]
+           [leiningen.core.eval]
            [bultitude.core :as b]
            [clojure.java.io :as io])
   (:import [java.io File]))
@@ -113,8 +114,8 @@
 (defn typos-for-all-ns
   "Returns a list of misspelled words for all namespaces under src/."
   []
-  (->> (b/namespaces-on-classpath :prefix "pallet")
-       #_(b/namespaces-on-classpath :classpath "src")
+  (->> #_(b/namespaces-on-classpath :prefix "clojure")
+       (b/namespaces-on-classpath :classpath "src")
        (map (fn [nsp]
               [nsp
                (try (typos-for-ns nsp)
@@ -136,6 +137,8 @@
   "Finds misspelled words in fn docs and prints them one per line. If given an arg,
   only does that namespace. Otherwise does all namespaces under src/."
   [project & args]
-  (if (first args)
-    (println (string/join "\n" (typos-for-ns (symbol (first args)))))
-    (println (string/join "\n" (typos-for-all-ns)))))
+  (leiningen.core.eval/eval-in-project
+    project
+    (if (first args)
+      (println (string/join "\n" (typos-for-ns (symbol (first args)))))
+      (println (string/join "\n" (typos-for-all-ns))))))
