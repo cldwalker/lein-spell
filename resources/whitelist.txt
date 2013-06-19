@@ -14,6 +14,7 @@ api
 arg
 argv
 arity
+ascii
 aseq
 async
 attr
@@ -27,6 +28,7 @@ backoff
 backport
 balancer
 basename
+beanshell
 behaviour
 bitflags
 blobstore
@@ -61,6 +63,7 @@ compilable
 composable
 conf
 config
+conn
 contrib
 couchbase
 cpu
@@ -195,6 +198,7 @@ multiverse
 namespaced
 nop
 oauth
+olds
 overridable
 parallelize
 param
@@ -242,6 +246,7 @@ regex
 rel
 repl
 repo
+resultset
 riak
 rpmforge
 rsync
@@ -313,6 +318,7 @@ unboxed
 uncomment
 unencoded
 unevaluated
+unicode
 unix
 unlinked
 unmunged
