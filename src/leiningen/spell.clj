@@ -85,22 +85,24 @@
                           (memoized-fetch-whitelist)
                           (memoized-core-names)
                           (memoized-fetch-local-whitelist)
-                          (set (ns-intern-names nsp))
+                          (set (when nsp (ns-intern-names nsp)))
                           (memoized-fetch-whitelist-pluralized)
                           #{""}))
 
 (defn typos-for-file
-  "Given a file, returns a list of misspelled words."
-  [file nsp]
-  (->> file
-       (format "cat %s | aspell --ignore=3 list")
-       (clojure.java.shell/sh "bash" "-c")
-       :out
-       (#(string/split % #"\n"))
-       distinct
-       sort
-       (remove-whitelisted nsp)
-       (remove ignorable?)))
+  "Given a file and optional ns, returns a list of misspelled words."
+  ([file]
+   (typos-for-file file nil))
+  ([file nsp]
+   (->> file
+        (format "cat %s | aspell --ignore=3 list")
+        (clojure.java.shell/sh "bash" "-c")
+        :out
+        (#(string/split % #"\n"))
+        distinct
+        sort
+        (remove-whitelisted nsp)
+        (remove ignorable?))))
 
 (defn typos-for-ns
   "Given a namespace or namespace symbol, returns a list of misspelled words."
@@ -127,6 +129,14 @@
        distinct
        sort))
 
+(defn typos-for-files
+  [files]
+  (->> files
+       (map typos-for-file)
+       (mapcat identity)
+       distinct
+       sort))
+
 (comment
   (whitelist-with count-less-than-six)
   (whitelist-with (fn [l] (filter #(re-find #"^[A-Z]" %) l)) true)
@@ -139,6 +149,6 @@
   [project & args]
   (leiningen.core.eval/eval-in-project
     project
-    (if (first args)
-      (println (string/join "\n" (typos-for-ns (symbol (first args)))))
+    (if (seq args)
+      (println (string/join "\n" (typos-for-files args)))
       (println (string/join "\n" (typos-for-all-ns))))))
