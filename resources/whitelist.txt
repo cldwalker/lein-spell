@@ -74,6 +74,7 @@ conf
 config
 conn
 contrib
+cors
 couchbase
 cpu
 cred
@@ -245,6 +246,7 @@ pid
 plaintext
 pluggable
 png
+polyfill
 polymorphism
 poolable
 portably
@@ -283,6 +285,7 @@ rel
 renderer
 repl
 repo
+requestor
 resultset
 rethrow
 riak
@@ -319,6 +322,7 @@ stderr
 stdin
 stdout
 storage
+stringable
 structmap
 subcomponent
 subdiffed
@@ -343,6 +347,7 @@ tcp
 tcsh
 teardown
 tempid
+templating
 threadsafe
 throwable
 timeline
@@ -386,6 +391,7 @@ utf
 util
 uuid
 validator
+varbinding
 variadic
 varname
 versioned
@@ -393,6 +399,7 @@ versioning
 vm
 vtype
 webapp
+webserver
 whitelist
 whitelisted
 whitespace
