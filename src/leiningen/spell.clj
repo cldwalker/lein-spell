@@ -2,7 +2,7 @@
  (:require [clojure.string :as string]
            [clojure.set]
            [clojure.java.shell]
-           [leiningen.core.eval]
+           [leiningen.core.eval :as eval]
            [bultitude.core :as b]
            [clojure.java.io :as io])
   (:import [java.io File]))
@@ -113,25 +113,39 @@
       doc-file-for-ns
       (typos-for-file nsp)))
 
+(defn- warn
+  [& msg]
+  (binding [*out* *err*]
+    (apply println msg)))
+
+(defn- safe-typos-for-ns [nsp]
+  (try (typos-for-ns nsp)
+       (catch Exception e
+         (warn (format "Failed on namespace %s with exception %s" nsp e)))))
+
 (defn typos-for-all-ns
   "Returns a list of misspelled words for all namespaces under src/."
   []
   (->> (b/namespaces-on-classpath :classpath "src")
        (map (fn [nsp]
-              [nsp
-               (try (typos-for-ns nsp)
-                    (catch Exception e
-                      (binding [*out* *err*]
-                       (println (format "Failed on namespace %s with exception %s" nsp e)))))]))
+              [nsp (safe-typos-for-ns nsp)]))
        (filter #(seq (second %)))
        (mapcat second)
        distinct
        sort))
 
+(defn- ns-for-file
+  [file]
+  (or (b/ns-form-for-file file)
+      (warn "No namespace found for" file)))
+
 (defn typos-for-files
   [files]
   (->> files
-       (map typos-for-file)
+       (map #(if (.endsWith % ".clj")
+               (some-> % ns-for-file safe-typos-for-ns)
+               (typos-for-file %)))
+       (remove nil?)
        (mapcat identity)
        distinct
        sort))
@@ -146,7 +160,7 @@
   "Finds misspelled words in fn docs and prints them one per line. If given an arg,
   only does that namespace. Otherwise does all namespaces under src/."
   [project & args]
-  (leiningen.core.eval/eval-in-project
+  (eval/eval-in-project
     project
     (if (seq args)
       (println (string/join "\n" (typos-for-files args)))
