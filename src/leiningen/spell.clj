@@ -116,8 +116,7 @@
 (defn typos-for-all-ns
   "Returns a list of misspelled words for all namespaces under src/."
   []
-  (->> #_(b/namespaces-on-classpath :prefix "clojure")
-       (b/namespaces-on-classpath :classpath "src")
+  (->> (b/namespaces-on-classpath :classpath "src")
        (map (fn [nsp]
               [nsp
                (try (typos-for-ns nsp)
@@ -143,7 +142,7 @@
   (time (typos-for-all-ns))
   (println (string/join "\n" (typos-for-ns 'pallet.api))))
 
-(defn spell
+(defn ^:no-project-needed spell
   "Finds misspelled words in fn docs and prints them one per line. If given an arg,
   only does that namespace. Otherwise does all namespaces under src/."
   [project & args]
