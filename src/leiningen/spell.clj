@@ -130,9 +130,7 @@
        (map (fn [nsp]
               [nsp (safe-typos-for-ns nsp)]))
        (filter #(seq (second %)))
-       (mapcat second)
-       distinct
-       sort))
+       (mapcat second)))
 
 (defn- ns-for-file
   [file]
@@ -140,6 +138,7 @@
       (warn "No namespace found for" file)))
 
 (defn typos-for-files
+  "Returns a list of misspelled words for given files."
   [files]
   (->> files
        (map #(if (.endsWith % ".clj")
@@ -150,6 +149,16 @@
        distinct
        sort))
 
+(defn typos-for-ns-and-doc-files
+  "Returns a list of misspelled words for all namespaces under src/ and *.{md,txt} doc files."
+  []
+  (let [doc-files
+        (->> "." io/file file-seq (map str) (filter #(re-find #"\.(md|txt)$" %)))]
+    (-> (typos-for-files doc-files)
+        (into (typos-for-all-ns))
+        distinct
+        sort)))
+
 (comment
   (whitelist-with count-less-than-six)
   (whitelist-with (fn [l] (filter #(re-find #"^[A-Z]" %) l)) true)
@@ -157,11 +166,11 @@
   (println (string/join "\n" (typos-for-ns 'pallet.api))))
 
 (defn ^:no-project-needed spell
-  "Finds misspelled words in fn docs and prints them one per line. If given an arg,
-  only does that namespace. Otherwise does all namespaces under src/."
+  "Finds misspelled words in given files and prints them one per line. If a clojure file, only the
+  fn docs are searched. If no args given, searches **/*.{md,txt} files and clojure files under src/."
   [project & args]
   (eval/eval-in-project
     project
     (if (seq args)
       (println (string/join "\n" (typos-for-files args)))
-      (println (string/join "\n" (typos-for-all-ns))))))
+      (println (string/join "\n" (typos-for-ns-and-doc-files))))))
