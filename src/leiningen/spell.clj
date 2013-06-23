@@ -165,12 +165,15 @@
   (time (typos-for-all-ns))
   (println (string/join "\n" (typos-for-ns 'pallet.api))))
 
+(defn spell*
+  "Handles actual processing of spell"
+  [args]
+  (if (seq args)
+    (println (string/join "\n" (typos-for-files args)))
+    (println (string/join "\n" (typos-for-ns-and-doc-files)))))
+
 (defn ^:no-project-needed spell
   "Finds misspelled words in given files and prints them one per line. If a clojure file, only the
   fn docs are searched. If no args given, searches **/*.{md,txt} files and clojure files under src/."
   [project & args]
-  (eval/eval-in-project
-    project
-    (if (seq args)
-      (println (string/join "\n" (typos-for-files args)))
-      (println (string/join "\n" (typos-for-ns-and-doc-files))))))
+  (eval/eval-in-project project (spell* args)))

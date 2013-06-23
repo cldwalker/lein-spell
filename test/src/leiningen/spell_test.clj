@@ -1,6 +1,8 @@
 (ns leiningen.spell-test
-  (:require [leiningen.spell :refer :all]
+  (:require [leiningen.spell :as spell]
             [clojure.java.shell :as sh]
+            [clojure.java.io :as io]
+            [bultitude.core :as b]
             [clojure.test :refer :all]))
 
 (defn- has-correct-file-output?
@@ -33,7 +35,14 @@
   (testing "warning for failed require of a clj file"
     (has-correct-warning? #"Failed on namespace test.fixtures.require-failed-whoops with exception" "require_failed.clj")))
 
-;; stub b/namespaces with fixtures.*
+(deftest spell-with-no-args
+  (is (=
+       "actally\ncorects\nitselve\n"
+       (with-out-str
+         (with-redefs [b/namespaces-on-classpath
+                       (constantly '(test.fixtures.misspelled test.fixtures.perfect))
+                       file-seq (constantly '())]
+           (spell/spell* '()))))))
 
 ;; unit tests
 ;; whitelist, core name, local whitelist, ns name, ignorable
