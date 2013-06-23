@@ -1,4 +1,4 @@
-(ns fixtures.misspelled)
+(ns test.fixtures.misspelled)
 
 (def ^{:doc "This corects for typos."} correction-factor)
 
