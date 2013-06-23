@@ -77,7 +77,7 @@ guidelines.](http://tagaholic.me/contributing.html)
 See LICENSE.TXT
 
 ## TODO
-* Consider a java spellchecking library if it's as good as aspell
+* Consider a java spellchecking library if it's as good as aspell e.g. lucene-spellchecker
 * Improve whitelist
 ** Add core java classes and methods
 ** Add a project's dependency names
