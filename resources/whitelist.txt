@@ -50,6 +50,7 @@ cdoc
 centos
 charset
 chmod
+chunked
 classbytes
 classfiles
 classloader
@@ -112,6 +113,7 @@ devel
 dir
 distro
 docstring
+doctype
 dtm
 dynamodb
 edn
@@ -121,6 +123,7 @@ enqueue
 enqueuing
 enum
 erroring
+etag
 executable
 execv
 expr
@@ -141,7 +144,10 @@ getter
 github
 gitignore
 gnupg
+google
 gpgkey
+gzip
+gzipped
 hadoop
 hardcopy
 heroku
@@ -170,6 +176,7 @@ jclouds
 jdbc
 jdk
 jpackage
+jpeg
 jruby
 js
 json
@@ -275,6 +282,7 @@ readme
 recognise
 recognised
 redhat
+redirection
 refactor
 refactored
 referentially
@@ -385,6 +393,8 @@ upserted
 upto
 uri
 url
+urlencoded
+useragent
 username
 utc
 utf
