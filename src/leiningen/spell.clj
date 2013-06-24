@@ -150,10 +150,10 @@
        sort))
 
 (defn typos-for-ns-and-doc-files
-  "Returns a list of misspelled words for all namespaces under src/ and *.{md,txt} doc files."
+  "Returns a list of misspelled words for all namespaces under src/ and *.{md,mdown,mkd,markdown,txt} doc files."
   []
-  (let [doc-files
-        (->> "." io/file file-seq (map str) (filter #(re-find #"\.(md|txt)$" %)))]
+  (let [doc-files (->> "." io/file file-seq (map str)
+                       (filter #(re-find #"\.(md|markdown|mdown|mkd|txt)$" %)))]
     (-> (typos-for-files doc-files)
         (into (typos-for-all-ns))
         distinct
