@@ -66,6 +66,7 @@ codebase
 coercion
 coll
 combinatorics
+commandline
 comparator
 compareTo
 compatability
@@ -136,6 +137,7 @@ filesystem
 fname
 fqdn
 fred
+fridays
 fsm
 fulltext
 func
@@ -236,6 +238,7 @@ namespaced
 nop
 oauth
 olds
+openjdk
 overridable
 parallelize
 param
@@ -335,6 +338,7 @@ structmap
 subcomponent
 subdiffed
 subform
+sublicense
 sublist
 subphase
 subprocess
