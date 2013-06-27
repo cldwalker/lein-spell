@@ -94,15 +94,23 @@
   ([file]
    (typos-for-file file nil))
   ([file nsp]
-   (->> file
-        (format "cat %s | aspell --ignore=3 list")
-        (clojure.java.shell/sh "bash" "-c")
-        :out
-        (#(string/split % #"\n"))
-        distinct
-        sort
-        (remove-whitelisted nsp)
-        (remove ignorable?))))
+   (let [typos (->> file
+                    (format "cat %s | aspell --ignore=3 list")
+                    (clojure.java.shell/sh "bash" "-c")
+                    :out
+                    (#(string/split % #"\n"))
+                    distinct
+                    sort
+                    (remove-whitelisted nsp)
+                    (remove ignorable?))]
+     (if false
+       typos
+       (let [lines (file-lines file)]
+         (mapcat (fn [typo]
+                   (->> lines
+                        (map-indexed (fn [i e] {:line (inc i) :text e :typo typo :file file}))
+                        (filter #(.contains (:text %) typo))))
+                 typos))))))
 
 (defn typos-for-ns
   "Given a namespace or namespace symbol, returns a list of misspelled words."
@@ -147,7 +155,8 @@
        (remove nil?)
        (mapcat identity)
        distinct
-       sort))
+       ;sort
+       ))
 
 (defn typos-for-ns-and-doc-files
   "Returns a list of misspelled words for all namespaces under src/ and *.{md,mdown,mkd,markdown,txt} doc files."
@@ -165,12 +174,19 @@
   (time (typos-for-all-ns))
   (println (string/join "\n" (typos-for-ns 'pallet.api))))
 
+(defn- print-lines
+  [lines]
+  (->> lines
+       (map #(format "%s:%s:%s" (:file %) (:line %) (:typo %)))
+       (string/join "\n")
+       println))
+
 (defn spell*
   "Handles actual processing of spell"
   [args]
   (if (seq args)
-    (println (string/join "\n" (typos-for-files args)))
-    (println (string/join "\n" (typos-for-ns-and-doc-files)))))
+    (print-lines (typos-for-files args))
+    (print-lines (typos-for-ns-and-doc-files))))
 
 (defn ^:no-project-needed spell
   "Finds misspelled words in given files and prints them one per line. If a clojure file, only the
