@@ -7,6 +7,8 @@
            [clojure.java.io :as io])
   (:import [java.io File]))
 
+(def ^:dynamic ^{:doc "When enabled, typos have file and line info."} *file-line-mode*)
+
 (defn- doc-file-for-ns [nsp]
   (let [file (File/createTempFile (str nsp) ".txt")]
     (spit file
@@ -89,6 +91,18 @@
                           (memoized-fetch-whitelist-pluralized)
                           #{""}))
 
+(defn- ->file-line-maps
+  "Creates file-line maps based on typos and current nsp/file scope."
+  [typos nsp file]
+  ;; smarter source-file lookup when not only looking at src namespaces
+  (let [source-file (if nsp (str "src/" (b/path-for (str nsp))) file)
+        lines (file-lines source-file)]
+    (mapcat (fn [typo]
+              (->> lines
+                   (map-indexed (fn [i e] {:line (inc i) :text e :typo typo :file source-file}))
+                   (filter #(.contains (:text %) typo))))
+            typos)))
+
 (defn typos-for-file
   "Given a file and optional ns, returns a list of misspelled words."
   ([file]
@@ -103,14 +117,9 @@
                     sort
                     (remove-whitelisted nsp)
                     (remove ignorable?))]
-     (if false
-       typos
-       (let [lines (file-lines file)]
-         (mapcat (fn [typo]
-                   (->> lines
-                        (map-indexed (fn [i e] {:line (inc i) :text e :typo typo :file file}))
-                        (filter #(.contains (:text %) typo))))
-                 typos))))))
+     (if *file-line-mode*
+       (->file-line-maps typos nsp file)
+       typos))))
 
 (defn typos-for-ns
   "Given a namespace or namespace symbol, returns a list of misspelled words."
@@ -154,9 +163,7 @@
                (typos-for-file %)))
        (remove nil?)
        (mapcat identity)
-       distinct
-       ;sort
-       ))
+       distinct))
 
 (defn typos-for-ns-and-doc-files
   "Returns a list of misspelled words for all namespaces under src/ and *.{md,mdown,mkd,markdown,txt} doc files."
@@ -165,8 +172,7 @@
                        (filter #(re-find #"\.(md|markdown|mdown|mkd|txt)$" %)))]
     (-> (typos-for-files doc-files)
         (into (typos-for-all-ns))
-        distinct
-        sort)))
+        distinct)))
 
 (comment
   (whitelist-with count-less-than-six)
@@ -176,10 +182,14 @@
 
 (defn- print-lines
   [lines]
-  (->> lines
-       (map #(format "%s:%s:%s" (:file %) (:line %) (:typo %)))
-       (string/join "\n")
-       println))
+  (let [formatted-lines (if *file-line-mode*
+                          (->> lines
+                               (sort-by :typo)
+                               (map #(format "%s:%s:%s" (:file %) (:line %) (:typo %))))
+                          (sort lines))]
+    (->> formatted-lines
+         (string/join "\n")
+         println)))
 
 (defn spell*
   "Handles actual processing of spell"
@@ -192,4 +202,6 @@
   "Finds misspelled words in given files and prints them one per line. If a clojure file, only the
   fn docs are searched. If no args given, searches **/*.{md,txt} files and clojure files under src/."
   [project & args]
-  (eval/eval-in-project project (spell* args)))
+  (let [[opts args] (split-with #{"-n"} args)]
+    (binding [*file-line-mode* (boolean (seq opts))]
+      (eval/eval-in-project project (spell* args)))))
