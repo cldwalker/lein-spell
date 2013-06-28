@@ -7,7 +7,7 @@
            [clojure.java.io :as io])
   (:import [java.io File]))
 
-(def ^:dynamic ^{:doc "When enabled, typos have file and line info."} *file-line-mode*)
+(def ^:dynamic ^{:doc "When enabled, typos have file and line info."} *file-line-mode* false)
 
 (defn- doc-file-for-ns [nsp]
   (let [file (File/createTempFile (str nsp) ".txt")]
@@ -194,14 +194,17 @@
 (defn spell*
   "Handles actual processing of spell"
   [args]
-  (if (seq args)
-    (print-lines (typos-for-files args))
-    (print-lines (typos-for-ns-and-doc-files))))
+  (let [[opts args] (split-with #{"-n" "--file-line"} args)]
+    (binding [*file-line-mode* (boolean (seq opts))]
+      (if (seq args)
+        (print-lines (typos-for-files args))
+        (print-lines (typos-for-ns-and-doc-files))))))
 
 (defn ^:no-project-needed spell
   "Finds misspelled words in given files and prints them one per line. If a clojure file, only the
-  fn docs are searched. If no args given, searches **/*.{md,txt} files and clojure files under src/."
+  fn docs are searched. If no args given, searches **/*.{md,txt} files and clojure files under src/.
+
+  Options:
+  * -n, --file-line : Outputs in grep -nH format i.e. file:line:text for use with vim's grepprg."
   [project & args]
-  (let [[opts args] (split-with #{"-n"} args)]
-    (binding [*file-line-mode* (boolean (seq opts))]
-      (eval/eval-in-project project (spell* args)))))
+  (eval/eval-in-project project (spell* args)))
