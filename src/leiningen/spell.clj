@@ -8,6 +8,7 @@
   (:import [java.io File]))
 
 (def ^:dynamic ^{:doc "When enabled, typos have file and line info."} *file-line-mode* false)
+(def ^:dynamic ^{:doc "source-paths in current project"} *source-paths* '())
 
 (defn- doc-file-for-ns [nsp]
   (let [file (File/createTempFile (str nsp) ".txt")]
@@ -91,11 +92,20 @@
                           (memoized-fetch-whitelist-pluralized)
                           #{""}))
 
+(defn- ns->relative-path
+  [nsp source-paths]
+  (some #(-> (io/file % (b/path-for nsp))
+             ((fn [file]
+                (when (.exists file)
+                  (string/replace
+                    (str file)
+                    (str (System/getProperty "leiningen.original.pwd") "/") "")))))
+        source-paths))
+
 (defn- ->file-line-maps
   "Creates file-line maps based on typos and current nsp/file scope."
   [typos nsp file]
-  ;; smarter source-file lookup when not only looking at src namespaces
-  (let [source-file (if nsp (str "src/" (b/path-for (str nsp))) file)
+  (let [source-file (if nsp (ns->relative-path nsp *source-paths*) file)
         lines (file-lines source-file)]
     (mapcat (fn [typo]
               (->> lines
@@ -207,4 +217,5 @@
   Options:
   * -n, --file-line : Outputs in grep -nH format i.e. file:line:text for use with vim's grepprg."
   [project & args]
-  (eval/eval-in-project project (spell* args)))
+  (binding [*source-paths* (:source-paths project)]
+    (eval/eval-in-project project (spell* args))))
