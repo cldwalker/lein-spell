@@ -169,7 +169,7 @@
   [files]
   (->> files
        (map #(if (.endsWith % ".clj")
-               (some-> % ns-for-file safe-typos-for-ns)
+               (when-let [nsp (ns-for-file %)] (safe-typos-for-ns nsp))
                (typos-for-file %)))
        (remove nil?)
        (mapcat identity)
