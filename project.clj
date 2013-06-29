@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :eval-in-leiningen true
+  :eval-in :leiningen
   ;; because test/fixtures has broken nses that shouldn't be loaded by default
   :test-paths ["test/src"]
   :dependencies [[bultitude "0.2.2"]
