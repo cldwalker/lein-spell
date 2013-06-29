@@ -11,10 +11,9 @@
 (defn- has-correct-file-output?
   [output & files]
   (is (= output
-         (->
+         (:out
            (apply sh/sh "lein" "spell"
-                  (map #(str "test/fixtures/" %) files))
-           :out))))
+                  (map #(str "test/fixtures/" %) files))))))
 
 (defn- has-correct-warning?
   [regex file]
@@ -46,6 +45,32 @@
                        (constantly '(test.fixtures.misspelled test.fixtures.perfect))
                        file-seq (constantly '())]
            (spell/spell* '()))))))
+
+(defn- has-correct-file-output-for-option?
+  [expected args]
+  (binding [spell/*source-paths* '(".")]
+    (is (=
+         expected
+         (with-out-str
+           ;; this is only needed for no args case - doesn't effect other cases
+           (with-redefs [b/namespaces-on-classpath
+                         (constantly '(test.fixtures.misspelled test.fixtures.perfect))
+                         file-seq (constantly '())]
+             (spell/spell* args)))))))
+
+(deftest spell-with-no-args-except-n-option
+  (testing "with no args except -n option"
+    (has-correct-file-output-for-option?
+      "./test/fixtures/misspelled.clj:6:actally\n./test/fixtures/misspelled.clj:3:corects\n./test/fixtures/misspelled.clj:10:itselve\n"
+      '("-n")))
+  (testing "with args and -n option"
+    (has-correct-file-output-for-option?
+      "./test/fixtures/misspelled.clj:6:actally\n./test/fixtures/misspelled.clj:3:corects\n./test/fixtures/misspelled.clj:10:itselve\ntest/fixtures/misspelled.txt:1:miskate\n"
+      '("-n" "test/fixtures/misspelled.txt" "test/fixtures/perfect.txt" "test/fixtures/misspelled.clj" "test/fixtures/perfect.clj")))
+  (testing "with args and --file-line option"
+    (has-correct-file-output-for-option?
+      "./test/fixtures/misspelled.clj:6:actally\n./test/fixtures/misspelled.clj:3:corects\n./test/fixtures/misspelled.clj:10:itselve\ntest/fixtures/misspelled.txt:1:miskate\n"
+      '("--file-line" "test/fixtures/misspelled.txt" "test/fixtures/perfect.txt" "test/fixtures/misspelled.clj" "test/fixtures/perfect.clj"))))
 
 (defn- identifies-correct-typos?
   [expected input & [nsp]]
