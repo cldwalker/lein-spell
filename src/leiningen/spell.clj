@@ -3,10 +3,10 @@
 
 (defn ^:no-project-needed spell
   "Finds misspelled words in given files and prints them one per line. If a clojure file, only the
-  fn docs are searched. If no args given, searches **/*.{md,txt} files and clojure files under src/.
+fn docs are searched. If no args given, searches **/*.{md,txt} files and clojure files under src/.
 
-  Options:
-  * -n, --file-line : Outputs in grep -nH format i.e. file:line:text for use with vim's grep."
+Options:
+* -n, --file-line : Outputs in grep -nH format i.e. file:line:text for use with vim's grep."
   [project & args]
   (eval/eval-in-project
     (update-in project [:dependencies]
