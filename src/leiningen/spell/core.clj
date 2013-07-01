@@ -96,9 +96,11 @@
   (some #(-> (io/file % (b/path-for nsp))
              ((fn [file]
                 (when (.exists file)
-                  (string/replace
-                    (str file)
-                    (str (System/getProperty "leiningen.original.pwd") "/") "")))))
+                  (if-let [current-dir (System/getProperty "user.dir")]
+                    (string/replace
+                      (str file)
+                      (str current-dir "/") "")
+                    (str file))))))
         source-paths))
 
 (defn- ->file-line-maps
