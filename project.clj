@@ -1,5 +1,5 @@
 (defproject lein-spell "0.1.0"
-  :description "This library catches spelling mistakes in tech documents and clojure docstrings."
+  :description "This library catches spelling mistakes in programming documents and clojure docstrings."
   :url "https://github.com/cldwalker/lein-spell"
   :license {:name "The MIT License"
             :url "https://en.wikipedia.org/wiki/MIT_License"}

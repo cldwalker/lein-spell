@@ -1,6 +1,6 @@
 ## Description
 
-This library catches spelling mistakes in tech documents and clojure docstrings.
+This library catches spelling mistakes in programming docs and clojure docstrings.
 
 ## Install
 
@@ -11,11 +11,14 @@ Install aspell:
 $ brew install aspell
 ```
 
-Until this is released as a clojar, clone the repo and `lein install`.
-
-Add to your project.clj:
+Add to your project.clj :plugins key:
 
     [lein-spell "0.1.0"]
+
+Alternatively, you can have it available on all your projects
+by placing it in your ~/.lein/profiles.clj:
+
+    {:user {:plugins [[lein-spell "0.1.0"]]}}
 
 ## Usage
 
@@ -58,15 +61,39 @@ lein-spell recognizes `.lein-spell` as a local whitelist of words that are spell
 the above example, the words `bugfix` and `deployable` are correct so we only keep those two in the
 whitelist.
 
-If we run `lein spell` again, only the misspelled words print out. Once we fix those typos,
-subsequent runs of `lein spell` return empty until new typos are introduced.
+If we run `lein spell` again, only the misspelled words print out.
+
+### Fixing Typos
+
+To fix your typos, lein-spell provides a -n option to display each typo's location:
+
+```sh
+$ lein spell -n
+./README.md:25:associtaed
+./README.md:47:bugfix
+src/my/lib.clj:44:communitcated
+...
+```
+
+This formatted list is compatible with vim's grep which makes fixing these mistakes even easier:
+
+```sh
+$ vim -c 'set grepprg=lein\ spell\ -n' -c 'botright copen' -c 'silent! grep'
+```
+
+This puts you in vim with a navigable list of your project's typos. To navigate to the previous or
+next entry use :cprev and :cnext respectively.
+
+Once your typos are fixed, subsequent runs of `lein spell` return empty until new typos are
+introduced.
 
 ## Bugs/Issues
 
 Please report them [on github](http://github.com/cldwalker/lein-spell/issues).
 
 ## Contributing
-To contribute your whitelist, please just add them to the end of the [main whitelist](#TODO). This
+To contribute your whitelist, please just add them to the end of the [main
+whitelist](https://github.com/cldwalker/lein-spell/blob/master/resources/whitelist.txt). This
 makes it easier for me to curate the list.
 
 If not contributing to the whitelist, [see here for contribution
