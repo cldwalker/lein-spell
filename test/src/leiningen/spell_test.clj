@@ -1,5 +1,5 @@
 (ns leiningen.spell-test
-  (:require [leiningen.spell :as spell]
+  (:require [leiningen.spell.core :as spell]
             [clojure.java.shell :as sh]
             [clojure.java.io :as io]
             [clojure.string]
@@ -44,19 +44,18 @@
          (with-redefs [b/namespaces-on-classpath
                        (constantly '(test.fixtures.misspelled test.fixtures.perfect))
                        file-seq (constantly '())]
-           (spell/spell* '()))))))
+           (spell/spell* '() '()))))))
 
 (defn- has-correct-file-output-for-option?
   [expected args]
-  (binding [spell/*source-paths* '(".")]
-    (is (=
-         expected
-         (with-out-str
-           ;; this is only needed for no args case - doesn't effect other cases
-           (with-redefs [b/namespaces-on-classpath
-                         (constantly '(test.fixtures.misspelled test.fixtures.perfect))
-                         file-seq (constantly '())]
-             (spell/spell* args)))))))
+  (is (=
+       expected
+       (with-out-str
+         ;; this is only needed for no args case - doesn't effect other cases
+         (with-redefs [b/namespaces-on-classpath
+                       (constantly '(test.fixtures.misspelled test.fixtures.perfect))
+                       file-seq (constantly '())]
+           (spell/spell* args '(".")))))))
 
 (deftest spell-with-no-args-except-n-option
   (testing "with no args except -n option"
@@ -100,7 +99,7 @@
                                "Lions, tigerrs, defstructs and backends oh my."))
   (testing "whitelist of .lein-spell"
     (spit ".lein-spell" "defenestrate\n")
-    (require 'leiningen.spell :reload) ;; reload memoized whitelist
+    (require 'leiningen.spell.core :reload) ;; reload memoized whitelist
     (identifies-correct-typos? '("anoher")
                                "If he rhymes anoher clojar with clojure I swear I'm going to defenestrate him.")
     (.delete (io/file ".lein-spell"))))

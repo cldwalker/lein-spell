@@ -202,14 +202,18 @@
          (string/join "\n")
          println)))
 
-(defn spell
-  "Handles actual processing of lein-spell"
+(defn spell*
   [args source-paths]
   (let [[opts args] (split-with #{"-n" "--file-line"} args)]
     (binding [*file-line-mode* (boolean (seq opts))
               *source-paths* source-paths]
       (if (seq args)
         (print-lines (typos-for-files args))
-        (print-lines (typos-for-ns-and-doc-files)))
-      (System/exit 0))))
+        (print-lines (typos-for-ns-and-doc-files))))))
 
+(defn spell
+  "Handles actual processing of lein-spell"
+  [args source-paths]
+  (spell* args source-paths)
+  ; without this subprocess hangs
+  (System/exit 0))
