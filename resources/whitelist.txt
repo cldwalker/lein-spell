@@ -7,6 +7,7 @@ HornetQ
 IAM
 IEEE
 ZooKeeper
+addon
 aggregator
 ami
 aname
@@ -31,6 +32,7 @@ backoff
 backport
 balancer
 basename
+bashrc
 beanshell
 behaviour
 bitflags
@@ -118,6 +120,8 @@ doctype
 dtm
 dynamodb
 edn
+emacs
+emoji
 encoding
 english
 enqueue
@@ -148,11 +152,13 @@ gitignore
 gnupg
 google
 gpgkey
+gvim
 gzip
 gzipped
 hadoop
 hardcopy
 heroku
+hmac
 hostname
 hotrod
 href
@@ -164,9 +170,11 @@ implementer
 indices
 infinispan
 init
+initctl
 initd
 initializer
 inserter
+interceptorware
 interop
 interoperability
 interruptible
@@ -201,6 +209,7 @@ lexically
 lib
 libspec
 lifecycle
+linkable
 linux
 listall
 localhost
@@ -236,6 +245,7 @@ multipart
 multiverse
 namespaced
 nop
+nrepl
 oauth
 olds
 openjdk
@@ -249,6 +259,7 @@ parens
 parentesised
 parser
 passphrase
+pastebin
 pathname
 perfomed
 pgadmin
@@ -292,11 +303,13 @@ referentially
 regex
 regexes
 reimplement
+reinstall
 rel
 renderer
 repl
 repo
 requestor
+resizing
 resultset
 rethrow
 riak
@@ -335,6 +348,7 @@ stdout
 storage
 stringable
 structmap
+stty
 subcomponent
 subdiffed
 subform
@@ -347,6 +361,7 @@ subsecond
 substring
 subtask
 subtree
+subvector
 sudo
 sudoers
 superclass
@@ -366,7 +381,9 @@ timeline
 timestamp
 toc
 tradeoff
+transactable
 transactional
+travis
 treeify
 truish
 truthy
@@ -410,9 +427,11 @@ variadic
 varname
 versioned
 versioning
+viewable
 vm
 vtype
 webapp
+webhook
 webserver
 whitelist
 whitelisted
@@ -420,4 +439,6 @@ whitespace
 wildcard
 xml
 xmlns
+yaml
 zlib
+zshrc
