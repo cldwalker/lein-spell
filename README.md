@@ -9,6 +9,11 @@ Install aspell:
 ```sh
 # For mac osx
 $ brew install aspell
+
+# For ubuntu/debian
+$ apt-get install aspell
+
+# See http://aspell.net/ for more
 ```
 
 Add to your project.clj :plugins key:
@@ -39,7 +44,7 @@ $ lein spell README.md src/leiningen/spell.clj
 ...
 ```
 
-Realistically, this spellchecker will find false positives as there
+Realistically, this spell checker will find false positives as there
 are many words we use that aren't recognized by traditional dictionaries.
 Therefore, it's encouraged to create your own local whitelist as you find
 false positives:
