@@ -6,7 +6,7 @@
   fn docs are searched. If no args given, searches **/*.{md,txt} files and clojure files under src/.
 
   Options:
-  * -n, --file-line : Outputs in grep -nH format i.e. file:line:text for use with vim's grepprg."
+  * -n, --file-line : Outputs in grep -nH format i.e. file:line:text for use with vim's grep."
   [project & args]
   (eval/eval-in-project
     (update-in project [:dependencies]

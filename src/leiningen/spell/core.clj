@@ -177,7 +177,7 @@
        distinct))
 
 (defn typos-for-ns-and-doc-files
-  "Returns a list of misspelled words for all namespaces under src/ and *.{md,mdown,mkd,markdown,txt} doc files."
+  "Returns a list of misspelled words for markdown/txt docs and all namespaces under src/."
   []
   (let [doc-files (->> "." io/file file-seq (map str)
                        (filter #(re-find #"\.(md|markdown|mdown|mkd|txt)$" %)))]
