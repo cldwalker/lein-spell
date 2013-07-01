@@ -1,6 +1,6 @@
 ## Description
 
-TODO
+This library catches spelling mistakes in tech documents and clojure docstrings.
 
 ## Install
 
@@ -15,7 +15,7 @@ Until this is released as a clojar, clone the repo and `lein install`.
 
 Add to your project.clj:
 
-    [lein-spell "0.1.0-SNAPSHOT"]
+    [lein-spell "0.1.0"]
 
 ## Usage
 
@@ -26,7 +26,7 @@ associtaed
 ...
 ```
 
-By default var/fn docstrings under src/ and files that match **/*.{md,txt}
+By default var/fn docstrings under src/ and txt and markdown files
 are searched for typos.
 
 If you want to spellcheck certain files, just pass them as arguments:
@@ -52,14 +52,14 @@ specfy
 tranisition
 ```
 
+Note: To add your whitelist to lein-spell, see [Conributing](#contributing).
+
 lein-spell recognizes `.lein-spell` as a local whitelist of words that are spelled correctly. In
 the above example, the words `bugfix` and `deployable` are correct so we only keep those two in the
 whitelist.
 
 If we run `lein spell` again, only the misspelled words print out. Once we fix those typos,
 subsequent runs of `lein spell` return empty until new typos are introduced.
-
-If you'd like to contribute your whitelist to lein-spell, see [Conributing](#contributing)
 
 ## Bugs/Issues
 
@@ -77,6 +77,8 @@ guidelines.](http://tagaholic.me/contributing.html)
 See LICENSE.TXT
 
 ## TODO
+* Get tests to pass on travis though they pass locally
+* Option to disable checking markdown code blocks - source of many a false positive
 * Consider a java spellchecking library if it's as good as aspell e.g. lucene-spellchecker
 * Improve whitelist
 ** Add core java classes and methods

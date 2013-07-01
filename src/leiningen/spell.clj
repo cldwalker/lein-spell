@@ -10,6 +10,6 @@
   [project & args]
   (eval/eval-in-project
     (update-in project [:dependencies]
-               conj ['lein-spell "0.1.0-SNAPSHOT"])
+               conj ['lein-spell "0.1.0"])
     `(leiningen.spell.core/spell (list ~@args) (list ~@(:source-paths project)))
     '(require 'leiningen.spell.core)))
