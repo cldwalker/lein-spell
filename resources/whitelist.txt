@@ -257,6 +257,7 @@ metadata
 metaprogramming
 middleware
 milli
+mimetype
 mixin
 mkdir
 monad
@@ -344,6 +345,7 @@ requestor
 resizing
 resultset
 rethrow
+rethrown
 riak
 rpmforge
 rsync
@@ -392,6 +394,7 @@ subexpression
 subform
 sublicense
 sublist
+subpath
 subphase
 subprocess
 subprocesses
