@@ -75,7 +75,6 @@ To fix your typos, lein-spell provides a -n option to display each typo's locati
 ```sh
 $ lein spell -n
 ./README.md:25:associtaed
-./README.md:47:bugfix
 src/my/lib.clj:44:communitcated
 ...
 ```
