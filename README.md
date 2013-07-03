@@ -60,7 +60,7 @@ specfy
 tranisition
 ```
 
-Note: To add your whitelist to lein-spell, see [Conributing](#contributing).
+Note: To add your whitelist to lein-spell, see [Contributing](#contributing).
 
 lein-spell recognizes `.lein-spell` as a local whitelist of words that are spelled correctly. In
 the above example, the words `bugfix` and `deployable` are correct so we only keep those two in the
