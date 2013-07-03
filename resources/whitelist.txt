@@ -1,4 +1,3 @@
-
 CloudFormation
 Cloudwatch
 Couchbase
@@ -10,6 +9,8 @@ IEEE
 ZooKeeper
 addon
 aggregator
+algol
+algorithmically
 ami
 aname
 api
@@ -20,6 +21,7 @@ argv
 arities
 arity
 ascii
+asciidoc
 aseq
 async
 attr
@@ -39,6 +41,7 @@ beanshell
 behaviour
 benchmarking
 bitflags
+bitwise
 blobstore
 bootclasspath
 bugfix
@@ -48,9 +51,11 @@ bytecode
 bytestring
 calc
 callout
+camelize
 cancelled
 cardinality
 carte
+cartesian
 cdoc
 centos
 changelog
@@ -68,6 +73,7 @@ clj
 clojar
 clojure
 clojuredoc
+clojurescript
 clojurewerkz
 closeable
 cloudwatch
@@ -87,6 +93,7 @@ conf
 config
 conn
 contrib
+copyrightable
 cors
 couchbase
 cpu
@@ -132,16 +139,19 @@ docstring
 doctype
 dtm
 dynamodb
+ebook
 edn
 emacs
 emoji
 encoding
+enforceability
 english
 enqueue
 enqueuing
 enum
 erroring
 etag
+evaling
 executable
 execv
 expr
@@ -152,6 +162,8 @@ filename
 filepath
 filesystem
 fname
+formatter
+fortran
 foundational
 fqdn
 fred
@@ -174,6 +186,9 @@ gzipped
 hadoop
 hardcopy
 hashmap
+hashtable
+hashtag
+hereunder
 heroku
 hexdump
 hmac
@@ -198,6 +213,7 @@ interop
 interoperability
 interoperate
 interruptible
+ipsum
 jarfile
 javac
 javadoc
@@ -232,6 +248,7 @@ lib
 libspec
 lifecycle
 linkable
+linkify
 linux
 listall
 localhost
@@ -245,6 +262,7 @@ lossy
 lowercasing
 lucene
 macroexpansion
+markov
 matcher
 maxfile
 md
@@ -266,17 +284,22 @@ msec
 multi
 multibyte
 multiline
+multimap
 multimethod
 multipart
 multithreaded
+multivector
 multiverse
+mysql
 namespaced
+namespacing
 nop
 nrepl
 oauth
 olds
 openid
 openjdk
+ordinalize
 overridable
 parallelize
 param
@@ -291,7 +314,9 @@ passwd
 pastebin
 pathname
 perfomed
+performant
 pgadmin
+phonogram
 pid
 plaintext
 pluggable
@@ -303,7 +328,9 @@ portably
 postgres
 postgresql
 pre
+precisions
 precompile
+precomputing
 pred
 prepend
 prepended
@@ -321,8 +348,10 @@ proxying
 psql
 quasiquoting
 querystring
+radian
 radix
 readably
+readline
 readme
 rebindable
 recognise
@@ -347,6 +376,7 @@ resultset
 rethrow
 rethrown
 riak
+roundtripping
 rpmforge
 rsync
 rubygems
@@ -367,11 +397,14 @@ significative
 slamhound
 slimed
 sonatype
+sortability
+sortable
 sourcery
 specialisation
 specialised
 specialiser
 sql
+sqlite
 squuid
 src
 stacktrace
@@ -399,6 +432,7 @@ subphase
 subprocess
 subprocesses
 subproject
+subprotocol
 subsecond
 substring
 subtask
@@ -412,6 +446,7 @@ superinterface
 superset
 sym
 symlink
+synching
 syntaxes
 taggable
 tcp
@@ -427,6 +462,9 @@ timeline
 timestamp
 toc
 todo
+tokenize
+tokenizing
+toolbelt
 tradeoff
 transactable
 transactional
@@ -444,6 +482,8 @@ ubuntu
 ui
 unary
 unboxed
+unbuffered
+uncategorized
 uncomment
 unencoded
 unevaluated
@@ -454,6 +494,8 @@ unlinked
 unmerge
 unmerged
 unmunged
+unordered
+unparse
 unprefixed
 unrecognised
 unsynchronized
@@ -473,6 +515,7 @@ util
 uuid
 validator
 varbinding
+varchar
 variadic
 varname
 versa
@@ -481,6 +524,7 @@ versioning
 viewable
 vm
 vtype
+waivable
 webapp
 webhook
 webserver
