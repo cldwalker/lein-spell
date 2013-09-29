@@ -61,6 +61,7 @@ centos
 changelog
 changeset
 charset
+checkbox
 checksum
 chmod
 chunked
@@ -125,18 +126,23 @@ def
 defproject
 deployable
 deps
+derefable
 dereferenced
 derefing
 derivee
 desc
 dest
+destructured
 destructuring
+deterministicly
 dev
 devel
 dir
 distro
 docstring
 doctype
+draggable
+droppable
 dtm
 dynamodb
 ebook
@@ -147,6 +153,7 @@ encoding
 enforceability
 english
 enqueue
+enqueued
 enqueuing
 enum
 erroring
@@ -158,9 +165,11 @@ expr
 failover
 favour
 fifo
+filefield
 filename
 filepath
 filesystem
+firefox
 fname
 formatter
 fortran
@@ -198,8 +207,10 @@ href
 html
 http
 ident
+iframe
 impl
 implementer
+incrementing
 indices
 infinispan
 init
@@ -241,6 +252,7 @@ kwarg
 lang
 latencies
 launchd
+leaderboard
 lein
 leiningen
 lexically
@@ -280,6 +292,7 @@ mixin
 mkdir
 monad
 monadic
+mouseover
 msec
 multi
 multibyte
@@ -299,6 +312,7 @@ oauth
 olds
 openid
 openjdk
+optimization
 ordinalize
 overridable
 parallelize
@@ -324,6 +338,7 @@ png
 polyfill
 polymorphism
 poolable
+popup
 portably
 postgres
 postgresql
@@ -336,6 +351,7 @@ prepend
 prepended
 prepending
 prepost
+pressable
 prioritised
 proc
 prodmode
@@ -360,6 +376,7 @@ redhat
 redirection
 refactor
 refactored
+refactoring
 referentially
 regex
 regexes
@@ -369,8 +386,11 @@ rel
 renderer
 repl
 repo
+reposition
+repositioning
 reproducibility
 requestor
+resize
 resizing
 resultset
 rethrow
@@ -385,6 +405,8 @@ scala
 scalable
 schema
 screencast
+screenshot
+scss
 sdb
 searchable
 selinux
@@ -392,6 +414,7 @@ serializable
 servlet
 sessioned
 sexp
+sexpr
 sftp
 significative
 slamhound
@@ -419,6 +442,7 @@ storage
 stringable
 structmap
 stty
+stylesheet
 subclassloader
 subcomponent
 subdiffed
@@ -449,17 +473,21 @@ symlink
 synching
 syntaxes
 taggable
+tbody
 tcp
 tcsh
 teardown
 tempfile
 tempid
 templating
+textfield
+thead
 threadlocal
 threadsafe
 throwable
 timeline
 timestamp
+titlebar
 toc
 todo
 tokenize
@@ -498,8 +526,10 @@ unordered
 unparse
 unprefixed
 unrecognised
+unselected
 unsynchronized
 untrusted
+unwatch
 upsert
 upsertable
 upserted
@@ -522,6 +552,7 @@ versa
 versioned
 versioning
 viewable
+viewport
 vm
 vtype
 waivable
@@ -533,6 +564,7 @@ whitelist
 whitelisted
 whitespace
 wildcard
+wireframe
 workflow
 xml
 xmlns
